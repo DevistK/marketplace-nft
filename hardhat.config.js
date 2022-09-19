@@ -1,6 +1,8 @@
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config();
 
-const projectId = "ce31d4fe8e9a4da7883995a74d92e6df";
+const projectId = process.env.PROJECT_ID;
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   network: {
