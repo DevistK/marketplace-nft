@@ -52,8 +52,8 @@ contract NFTMarket is ReentrancyGuard{
 
     // nft 등록
     public payable nonReentrant{
-        require(price > 0, "최소 1 wei 를 가져야합니다.");
-        require(msg.value == listingPrice, "listing 가격과 동일해야합니다.");
+        require(price > 0, "You must have at least 1 wei .");
+        require(msg.value == listingPrice, "must same listing price");
 
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -74,8 +74,8 @@ contract NFTMarket is ReentrancyGuard{
             itemId,
             nftContract,
             tokenId,
-            msg.sender,
-            address(0),
+            payable(msg.sender),
+            payable(address(0)),
             price,
             false
         );
@@ -89,7 +89,7 @@ contract NFTMarket is ReentrancyGuard{
         uint price = idToMarketItem[itemId].price;
         uint tokenId = idToMarketItem[itemId].tokenId;
 
-        require(msg.value == price, "가격을 확인해주세요");
+        require(msg.value == price, "pleas price check");
         idToMarketItem[itemId].seller.transfer(msg.value);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
@@ -129,7 +129,7 @@ contract NFTMarket is ReentrancyGuard{
                 itemCount += 1;
             }
         }
-         MarketItem[] memory   = new MarketItem[](itemCount);
+         MarketItem[] memory items = new MarketItem[](itemCount);
 
         for (uint i=0; i < totalItemCount; i++){
             if (idToMarketItem[i+1].owner == msg.sender){
