@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -88,6 +89,9 @@ contract NFTMarket is ReentrancyGuard{
     ) public payable nonReentrant{
         uint price = idToMarketItem[itemId].price;
         uint tokenId = idToMarketItem[itemId].tokenId;
+
+        console.log(msg.value);
+        console.log(price);
 
         require(msg.value == price, "pleas price check");
         idToMarketItem[itemId].seller.transfer(msg.value);
